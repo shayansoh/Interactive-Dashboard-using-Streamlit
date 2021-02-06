@@ -28,14 +28,14 @@ This tool is build with the end-client in mind and has been designed in a way th
 ## Highlights of the Project
 
 - As mentioned above, the application has a lot of cool features to increase productivity. Some examples of these features are shown below.
-![](streamlit_byairline.png)
-![](streamlit_sentiment.png)
+![](streamlit_byairline.PNG)
+![](streamlit_sentiment.PNG)
 
 - The end-user can also sort the tweets by different hours of day to analyze the trend of when people are the most active. 
-![](streamlit_byhour.png)
+![](streamlit_byhour.PNG)
 
 - Lastly, the end-client can try to highlight the most focused words by the customers for different sentiments. This can help them improve their services if they know which areas are affecting the customers the most.
-![](wordcloud.png)
+![](wordcloud.PNG)
 
 ## Running the Application on Local Machine
 

@@ -1,3 +1,4 @@
+# import libraries
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -6,12 +7,14 @@ from wordcloud import WordCloud, STOPWORDS
 import matplotlib.pyplot as plt
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
+# main page and sidebar pages titles
 st.title("Sentiment Analysis of Tweets about US Airlines")
 st.sidebar.title("Sentiment Analysis of Tweets about US Airlines")
 
 st.markdown("This application is a Streamlit dashboard to analyze the sentiment of Tweets 🐦")
 st.sidebar.markdown("This application is a Streamlit dashboard to analyze the sentiment of Tweets 🐦")
 
+# load data
 data_url = ("Tweets.csv")
 
 @st.cache(persist=True)
@@ -22,15 +25,18 @@ def load_data():
 
 data = load_data()
 
+# random tweet based on user-selected sentiment
 st.sidebar.subheader("Show random tweet")
 random_tweet = st.sidebar.radio("Sentiment", ("positive", "neutral", "negative"))
 st.sidebar.markdown(data.query("airline_sentiment == @random_tweet")[["text"]].sample(n=1).iat[0,0])
 
+# tweets by sentiment
 st.sidebar.markdown("### Number of tweets by sentiment")
 select = st.sidebar.selectbox("Visualization type", ["Histogram", "Pie Chart"], key="1")
 sentiment_count = data["airline_sentiment"].value_counts()
 sentiment_count = pd.DataFrame({"Sentiment": sentiment_count.index, "Tweets": sentiment_count.values})
 
+# histogram or piechart plot
 if not st.sidebar.checkbox("Hide", True):
     st.markdown("### Number of tweets by sentiment")
     if select == "Histogram":
@@ -40,6 +46,7 @@ if not st.sidebar.checkbox("Hide", True):
         fig = px.pie(sentiment_count, values="Tweets", names="Sentiment")
         st.plotly_chart(fig)
 
+# tweet location
 st.sidebar.subheader("When and where are tweeters tweeting from?")
 hour = st.sidebar.slider("Hour of day", 0, 23)
 modified_data = data[data['tweet_created'].dt.hour == hour]
@@ -51,6 +58,7 @@ if not st.sidebar.checkbox("Close", True, key="1"):
     if st.sidebar.checkbox("Show raw data", False):
         st.write(modified_data)
 
+# tweet by airline and sentiment
 st.sidebar.subheader("Breakdown airline tweets by sentiment")
 choice = st.sidebar.multiselect("Pick Airlines", ("US Airways", "United", "American", "Southwest", "Delta", "Virgin America"), key="0")
 
@@ -60,6 +68,7 @@ if len(choice) > 0:
     facet_col="airline_sentiment", labels={"airline_sentiment":"tweets"}, height=600, width=800)
     st.plotly_chart(fig_choice)
 
+# word cloud
 st.sidebar.header("Word Cloud")
 word_sentiment = st.sidebar.radio('What sentiment would you like to display the word cloud for?', ('positive', 'neutral', 'negative'))
 
